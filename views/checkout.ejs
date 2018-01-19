@@ -71,27 +71,32 @@
             color: 'silver'      // gold | blue | silver
         },
 
+        // INVOKED UPON PP BUTTON CLICK
         payment: function (data, actions) {
 
-            // pull up the data from the 'textarea' input fields
+            // 1) pull up the data from the 'textarea' input fields
             var payload = {
                 cartData: JSON.parse($("#cartData").val()),
                 shippingData: JSON.parse($("#shippingData").val())
             }
             console.log(typeof payload + " payload: ", payload);
 
-            // call our server side to 'create' a payment on the server-side
-            return paypal.request.post(
-                CREATE_PAYMENT_URL,
-                {data: JSON.stringify(payload)}
-            ).then(function (resp) { // send off the newly created payment id to PayPal to render the pop-up
+            // 2) call our server side to setup the payment
+            return paypal.request.post(CREATE_PAYMENT_URL, {data: JSON.stringify(payload)})
+                .then(function (resp) {
+
+                // 3) If things work, we return the response from the 'paypal.request.post()' call above.
+                // NOTE:  we essentally get a token back (assumming the setEC worked).  Let's print it out in the console
+                console.log('paypal.request.post results: ', resp);
                 return resp;
-            }).catch(function (e) {
+
+            }).catch(function (e) { // this is called only in case of an error from the paypal.request.post()
                 alert("Error in payment callback!", e)
                 return paypal.Promise.reject(e);
             });
         },
 
+        // INVOKED UPON USER PAYMENT CONFIRMATION IN THE POP-UP
         onAuthorize: function (data, actions) {
             console.log("onAuthorize (data)", data);
             console.log("onAuthorize (actions)", actions);
