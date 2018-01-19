@@ -5,7 +5,7 @@ var config = require('./config');
 router.post('/', function (req, res, next) {
 
     var cart = req.body;
-    console.log("/checkout cart: ", cart);
+    console.log(req.originalUrl + " cart: ", cart);
 
     // Prepping data.  We do this rather than build the details of an interactive cart -- with all the related HTML trappings.
     var cartData = {

@@ -28,14 +28,14 @@ app.use('/', index);
 var checkout = require('./routes/checkout');
 app.use('/checkout', checkout);
 
-var setEC = require('./routes/setEC');
-app.use('/setEC', setEC);
+var payment = require('./routes/payment');
+app.use('/payment', payment);
 
-var getEC = require('./routes/getEC');
-app.use('/getEC', getEC);
+var confirm = require('./routes/confirm');
+app.use('/confirm', confirm);
 
-var doEC = require('./routes/doEC');
-app.use('/doEC', doEC);
+var complete = require('./routes/complete');
+app.use('/complete', complete);
 
 /*******************************************/
 /*************** END: ROUTES ***************/

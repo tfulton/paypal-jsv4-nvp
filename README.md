@@ -2,7 +2,7 @@ paypal-jsv4-nvp
 ---------------
 
 # Overview
-Walk through an end-to-end "mark" integration using Checkout.js/JSV4 via server NVP.  This flow uses an Order>Auth>Capture (sans the 'capture' within the current pages implemented here).
+Walk through an end-to-end "mark" integration using JSV4 via server NVP.  This flow uses an Order>Auth>Capture (sans the 'capture' within the current pages implemented here).
 
 **Main Objectives and Key Learning:**
 * Understand how a JSV4 client interacts with a "classic" NVP backend implementation.

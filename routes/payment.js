@@ -46,7 +46,7 @@ router.post('/', function (req, res, next) {
         PAYMENTREQUEST_0_SHIPTOZIP: payload.shippingData.shipping_address.postal_code,
         PAYMENTREQUEST_0_SHIPTOCOUNTRYCODE: payload.shippingData.shipping_address.country_code,
 
-        RETURNURL: 'http://localhost:3000/getEC',
+        RETURNURL: 'http://localhost:3000/confirm',
         CANCELURL: 'http://localhost:3000/'
     };
 
