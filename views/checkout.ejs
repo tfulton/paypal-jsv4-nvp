@@ -1,0 +1,140 @@
+<html>
+<head>
+    <title>PayPal Checkout - Mark</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+    <style>
+        /* Media query for mobile viewport */
+        @media screen and (max-width: 400px) {
+            #paypal-button-container {
+                width: 100%;
+            }
+        }
+
+        /* Media query for desktop viewport */
+        @media screen and (min-width: 400px) {
+            #paypal-button-container {
+                width: 250px;
+                display: inline-block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="ui attached stackable menu">
+    <div class="ui container">
+        <a class="item" id="home">
+            <i class="home icon"></i> Home
+        </a>
+    </div>
+</div>
+<div class="ui raised container segment visible content" id="cart">
+    <h2 class="ui header">PayPal Checkout - Checkout</h2>
+    <form class="ui form" id="checkout-form">
+        <h4 class="ui dividing header">Cart</h4>
+        <pre>
+            <textarea id="cartData" rows="20" cols="10"><%= JSON.stringify(cartData, null, 4) %></textarea>
+        </pre>
+        <h4 class="ui dividing header">Shipping</h4>
+        <pre>
+            <textarea id="shippingData" rows="15" cols="10"><%= JSON.stringify(shippingData, null, 4) %></textarea>
+                </pre>
+    </form>
+    <p/>
+    <div id="paypal-button-container"></div>
+</div>
+<script>
+
+    var CREATE_PAYMENT_URL = '/setEC';
+
+    // Render the PayPal button
+    paypal.Button.render({
+
+        // Set your environment
+        env: 'sandbox', // sandbox | production
+        client: {
+            sandbox: '<%= clientId %>', // this is injected via the template render
+        },
+
+        locale: 'en_US', // because we all speak Spanish!
+
+        style: {
+//            label: 'pay', // checkout | credit | pay
+            layout: 'vertical',
+            size: 'medium',    // small | medium | responsive
+            shape: 'pill',     // pill | rect
+            color: 'silver'      // gold | blue | silver
+        },
+
+        payment: function (data, actions) {
+
+            // pull up the data from the 'textarea' input fields
+            var payload = {
+                cartData: JSON.parse($("#cartData").val()),
+                shippingData: JSON.parse($("#shippingData").val())
+            }
+            console.log(typeof payload + " payload: ", payload);
+
+            // call our server side to 'create' a payment on the server-side
+            return paypal.request.post(
+                CREATE_PAYMENT_URL,
+                {data: JSON.stringify(payload)}
+            ).then(function (resp) { // send off the newly created payment id to PayPal to render the pop-up
+                return resp;
+            }).catch(function (e) {
+                alert("Error in payment callback!", e)
+                return paypal.Promise.reject(e);
+            });
+        },
+
+        onAuthorize: function (data, actions) {
+            console.log("onAuthorize (data)", data);
+            console.log("onAuthorize (actions)", actions);
+
+            // redirect to our 'return url'
+            return actions.redirect();
+        },
+
+        onCancel: function (data, actions) {
+            /*
+             * Buyer cancelled the payment
+             */
+            // redirect to our 'cancel url'
+            return actions.redirect();
+        },
+
+        onError: function (err) {
+            /*
+             * An error occurred during the transaction
+             */
+
+            // this would be implemented with a user friendly page
+            console.log("onError: ", err)
+        }
+
+
+    }, '#paypal-button-container');
+
+</script>
+<script>
+    $("#home").click(function () {
+        /* function goes in here */
+        location.href = '/'
+    });
+
+    $('.ui.radio.checkbox')
+        .checkbox();
+
+    $('.ui.dropdown')
+        .dropdown();
+
+    $('.ui.checkbox')
+        .checkbox();
+</script>
+</body>
+</html>

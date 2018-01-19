@@ -1,0 +1,39 @@
+<html>
+<head>
+    <title>PayPal Checkout - Mark</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+</head>
+
+<body>
+<div class="ui attached stackable menu">
+    <div class="ui container">
+        <a class="item" id="home">
+            <i class="home icon"></i> Home
+        </a>
+    </div>
+</div>
+<div class="ui raised container segment visible content" id="cart">
+    <h2 class="ui header">PayPal Checkout - Complete!</h2>
+    Congratulations, your payment has been processed!
+    <p/>
+    <form class="ui form" action="/mark/execute" method="POST">
+        <div class="field">
+            <label>Payment Data</label>
+            <pre>
+                <%= JSON.stringify(authorization, null, 4) %>
+            </pre>
+        </div>
+    </form>
+</div>
+<script>
+    $("#home").click(function () {
+        /* function goes in here */
+        location.href = '/'
+    });
+</script>
+</body>
+</html>
