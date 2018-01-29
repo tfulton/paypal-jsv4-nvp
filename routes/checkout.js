@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var config = require('./config');
 
 router.post('/', function (req, res, next) {
 
@@ -43,7 +42,6 @@ router.post('/', function (req, res, next) {
     }
 
     res.render('checkout', {
-        clientId: config.PP_REST_CONFIG.clientId,
         cartData: cartData,
         shippingData: shippingData
     });

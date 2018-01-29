@@ -14,7 +14,7 @@ router.post('/', function (req, res, next) {
     var paypal = Paypal(config.PP_CONFIG);
 
     var query = {
-        'VERSION': '204.0',
+        'VERSION': config.PP_CONFIG.API_VERSION,
         'METHOD': 'DoExpressCheckoutPayment',
         'TOKEN': token,
         'PAYMENTACTION': 'Order',

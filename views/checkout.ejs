@@ -46,7 +46,8 @@
                 </pre>
     </form>
     <p/>
-    <div id="paypal-button-container"></div>
+    <div id="paypal-button-container"></div><p/>
+    <div id="paypal-button-container-credit"></div>
 </div>
 <script>
 
@@ -57,9 +58,6 @@
 
         // Set your environment
         env: 'sandbox', // sandbox | production
-        client: {
-            sandbox: '<%= clientId %>', // this is injected via the template render
-        },
 
         locale: 'en_US', // because we all speak Spanish!
 
@@ -69,6 +67,11 @@
             size: 'medium',    // small | medium | responsive
             shape: 'pill',     // pill | rect
             color: 'silver'      // gold | blue | silver
+        },
+
+        funding: {
+            allowed: [ ],
+            disallowed: [ paypal.FUNDING.CREDIT ]
         },
 
         // INVOKED UPON PP BUTTON CLICK
@@ -124,6 +127,81 @@
 
 
     }, '#paypal-button-container');
+
+    // Render the PayPal button
+    paypal.Button.render({
+
+        // Set your environment
+        env: 'sandbox', // sandbox | production
+
+        locale: 'en_US', // because we all speak Spanish!
+
+        style: {
+            label: 'credit', // checkout | credit | pay
+//            layout: 'vertical',
+            size: 'medium',    // small | medium | responsive
+            shape: 'pill',     // pill | rect
+//            color: 'silver'      // gold | blue | silver
+        },
+
+        funding: {
+            allowed: [ paypal.FUNDING.CREDIT ],
+            disallowed: [  ]
+        },
+
+        // INVOKED UPON PP BUTTON CLICK
+        payment: function (data, actions) {
+
+            // 1) pull up the data from the 'textarea' input fields
+            var payload = {
+                cartData: JSON.parse($("#cartData").val()),
+                shippingData: JSON.parse($("#shippingData").val())
+            }
+            console.log(typeof payload + " payload: ", payload);
+
+            // 2) call our server side to setup the payment
+            return paypal.request.post(CREATE_PAYMENT_URL, {data: JSON.stringify(payload)})
+                .then(function (resp) {
+
+                    // 3) If things work, we return the response from the 'paypal.request.post()' call above.
+                    // NOTE:  we essentally get a token back (assumming the setEC worked).  Let's print it out in the console
+                    console.log('paypal.request.post results: ', resp);
+                    return resp;
+
+                }).catch(function (e) { // this is called only in case of an error from the paypal.request.post()
+                    alert("Error in payment callback!", e)
+                    return paypal.Promise.reject(e);
+                });
+        },
+
+        // INVOKED UPON USER PAYMENT CONFIRMATION IN THE POP-UP
+        onAuthorize: function (data, actions) {
+            console.log("onAuthorize (data)", data);
+            console.log("onAuthorize (actions)", actions);
+
+            // redirect to our 'return url'
+            return actions.redirect();
+        },
+
+        onCancel: function (data, actions) {
+            /*
+             * Buyer cancelled the payment
+             */
+            // redirect to our 'cancel url'
+            return actions.redirect();
+        },
+
+        onError: function (err) {
+            /*
+             * An error occurred during the transaction
+             */
+
+            // this would be implemented with a user friendly page
+            console.log("onError: ", err)
+        }
+
+
+    }, '#paypal-button-container-credit');
 
 </script>
 <script>

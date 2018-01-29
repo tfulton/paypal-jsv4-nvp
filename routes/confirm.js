@@ -14,7 +14,7 @@ router.get('/', function (req, res, next) {
 
     var query = {
         'METHOD':'GetExpressCheckoutDetails',
-        'VERSION':'204.0',
+        'VERSION':config.PP_CONFIG.API_VERSION,
         'TOKEN':token
     };
 

@@ -20,7 +20,7 @@ router.post('/', function (req, res, next) {
 
     var query = {
         METHOD:'SetExpressCheckout',
-        VERSION:'204.0',
+        VERSION: config.PP_CONFIG.API_VERSION,
         PAYMENTREQUEST_0_PAYMENTACTION:'Order',
         PAYMENTREQUEST_0_AMT:total,
         PAYMENTREQUEST_0_ITEMAMT:total,
