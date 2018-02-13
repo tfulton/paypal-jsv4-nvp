@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var config = require('./config');
+var config = require('config');
 var Paypal = require('paypal-nvp-api');
+
 
 router.post('/', function (req, res, next) {
     var token = req.body.token;
@@ -11,10 +12,10 @@ router.post('/', function (req, res, next) {
     console.log("token: ", token);
     console.log("payerID: ", payerId);
 
-    var paypal = Paypal(config.PP_CONFIG);
+    var paypal = Paypal(config.get("env"));
 
     var query = {
-        'VERSION': config.PP_CONFIG.API_VERSION,
+        'VERSION': config.get("env").API_VERSION,
         'METHOD': 'DoExpressCheckoutPayment',
         'TOKEN': token,
         'PAYMENTACTION': 'Order',
@@ -29,7 +30,7 @@ router.post('/', function (req, res, next) {
             // do the auth
             paypal.request('DoAuthorization', {
                 'METHOD':'DoAuthorization',
-                'VERSION':'204.0',
+                'VERSION': config.get("env").API_VERSION,
                 'TRANSACTIONID':result.TRANSACTIONID,
                 'AMT':result.AMT,
                 'CURRENCYCODE':result.CURRENCYCODE

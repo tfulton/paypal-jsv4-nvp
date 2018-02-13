@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var config = require('./config');
+var config = require('config');
 var Paypal = require('paypal-nvp-api');
+
 
 router.get('/', function (req, res, next) {
     var token = req.query.token;
@@ -10,11 +11,11 @@ router.get('/', function (req, res, next) {
     console.log("token: ", token);
     console.log("payerID: ", payerId);
 
-    var paypal = Paypal(config.PP_CONFIG);
+    var paypal = Paypal(config.get("env"));
 
     var query = {
         'METHOD':'GetExpressCheckoutDetails',
-        'VERSION':config.PP_CONFIG.API_VERSION,
+        'VERSION':config.get("env").API_VERSION,
         'TOKEN':token
     };
 

@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
-var config = require('./config');
+var config = require('config');
 var Paypal = require('paypal-nvp-api');
+
 
 router.post('/', function (req, res, next) {
 
-    var paypal = Paypal(config.PP_CONFIG);
+    var paypal = Paypal(config.get("env"));
 
     console.log(req.originalUrl + " body : ", req.body);
     var payload = JSON.parse(req.body.data);
@@ -20,7 +21,7 @@ router.post('/', function (req, res, next) {
 
     var query = {
         METHOD:'SetExpressCheckout',
-        VERSION: config.PP_CONFIG.API_VERSION,
+        VERSION: config.get("env").API_VERSION,
         PAYMENTREQUEST_0_PAYMENTACTION:'Order',
         PAYMENTREQUEST_0_AMT:total,
         PAYMENTREQUEST_0_ITEMAMT:total,
