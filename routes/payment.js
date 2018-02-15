@@ -3,12 +3,14 @@ var router = express.Router();
 var config = require('config');
 var Paypal = require('paypal-nvp-api');
 
+router.use(function (req, res, next) {
+    console.log(req.originalUrl + " body: ", req.body);
+    console.log(req.originalUrl + " queryParams: ", req.query);
+    next()
+});
 
 router.post('/', function (req, res, next) {
 
-    var paypal = Paypal(config.get("env"));
-
-    console.log(req.originalUrl + " body : ", req.body);
     var payload = JSON.parse(req.body.data);
 
     // calculate total
@@ -18,6 +20,8 @@ router.post('/', function (req, res, next) {
         console.log("item: ", items[i]);
         total += items[i].quantity * items[i].price;
     }
+
+    var paypal = Paypal(config.get("env"));
 
     var query = {
         METHOD:'SetExpressCheckout',

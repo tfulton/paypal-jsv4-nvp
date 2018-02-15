@@ -1,6 +1,12 @@
 var express = require('express');
 var router = express.Router();
 
+router.use(function (req, res, next) {
+    console.log(req.originalUrl + " body: ", req.body);
+    console.log(req.originalUrl + " queryParams: ", req.query);
+    next()
+});
+
 router.post('/', function (req, res, next) {
 
     var cart = req.body;

@@ -3,13 +3,15 @@ var router = express.Router();
 var config = require('config');
 var Paypal = require('paypal-nvp-api');
 
+router.use(function (req, res, next) {
+    console.log(req.originalUrl + " body: ", req.body);
+    console.log(req.originalUrl + " queryParams: ", req.query);
+    next()
+});
 
 router.get('/', function (req, res, next) {
     var token = req.query.token;
     var payerId = req.query.PayerID;
-
-    console.log("token: ", token);
-    console.log("payerID: ", payerId);
 
     var paypal = Paypal(config.get("env"));
 
