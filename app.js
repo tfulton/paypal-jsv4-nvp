@@ -22,14 +22,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 /*******************************************/
 /*************** BEGIN: ROUTES**************/
 
-var index = require('./routes/index');
-app.use('/', index);
-
-var checkout = require('./routes/checkout');
-app.use('/checkout', checkout);
-
-var payment = require('./routes/payment');
-app.use('/payment', payment);
+var createPayment = require('./routes/createPayment');
+app.use('/createPayment', createPayment);
 
 var confirm = require('./routes/confirm');
 app.use('/confirm', confirm);

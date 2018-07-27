@@ -47,10 +47,10 @@
   "transactions": [
     {
       "amount": {
-        "total": "30.11",
+        "total": "20.11",
         "currency": "USD",
         "details": {
-          "subtotal": "30.00",
+          "subtotal": "20.00",
           "tax": "0.07",
           "shipping": "0.03",
           "handling_fee": "1.00",
@@ -60,7 +60,7 @@
       },
       "description": "The payment transaction description.",
       "custom": "EBAY_EMS_90048630024435",
-      "invoice_number": "48787589673",
+      "invoice_number": "JULY262018_001",
       "payment_options": {
         "allowed_payment_method": "INSTANT_FUNDING_SOURCE"
       },
@@ -80,7 +80,7 @@
             "name": "handbag",
             "description": "Black handbag.",
             "quantity": "1",
-            "price": "15",
+            "price": "10",
             "tax": "0.02",
             "sku": "product34",
             "currency": "USD"
@@ -138,7 +138,7 @@
         // INVOKED UPON PP BUTTON CLICK
         payment: function (data, actions) {
 
-            var CREATE_PAYMENT_URL = '/payment';
+            var CREATE_PAYMENT_URL = '/createPayment';
 
             // 1) pull up the data from the 'textarea' input fields
             var payload = JSON.parse($("#cartData").val());
