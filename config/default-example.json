@@ -1,0 +1,9 @@
+{
+  "env": {
+    "mode": "sandbox",
+    "username": "[USER GOES HERE]",
+    "password": "[PASSWORD HERE]",
+    "signature": "SIGNATURE HERE",
+    "API_VERSION": "204.0"
+  }
+}

@@ -8,7 +8,7 @@ An example PayPal checkout integration using the PayPal NVP server API's.  The p
     npm install
     ```
 
-2. Customize your API credentials in the [./config/default.json](./config/default.json) configuration file.  Specifically, you will need your username, password and signature.
+2. Customize your API credentials by creating a file [./config/default.json](./config/default.json).  You can use default-example.json as a starting place.
 
 3. Start the server:
     ```
